@@ -1,0 +1,220 @@
+.formulario-pet {
+  max-width: 880px;
+
+  h1 { margin: var(--esp-2) 0 var(--esp-6); }
+}
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  color: var(--cor-texto-sec);
+  text-decoration: none;
+  margin-bottom: var(--esp-3);
+  &:hover { color: var(--cor-vermelho); }
+}
+
+.form-pet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+
+  fieldset {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-lg);
+    padding: var(--esp-5);
+    background: var(--cor-superficie);
+  }
+
+  legend {
+    padding: 0 var(--esp-2);
+    font-family: var(--fonte-display);
+    font-size: var(--tamanho-md);
+    font-weight: var(--peso-bold);
+    color: var(--cor-vermelho);
+  }
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--esp-4);
+  margin-bottom: 14px;
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+
+  &--checks { grid-template-columns: repeat(auto-fit, minmax(180px, max-content)); }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-1);
+    font-size: var(--tamanho-sm);
+    color: var(--cor-texto-sec);
+    font-weight: var(--peso-medio);
+
+    &.col-full { grid-column: 1 / -1; }
+  }
+
+  input, select, textarea {
+    padding: var(--esp-3);
+    border-radius: var(--raio-md);
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-fundo-alt);
+    font-size: var(--tamanho-base);
+    color: var(--cor-texto);
+    font-family: inherit;
+
+    &:focus { outline: none; border-color: var(--cor-vermelho); box-shadow: var(--sombra-foco); background: var(--cor-superficie); }
+  }
+}
+
+.check {
+  flex-direction: row !important;
+  align-items: center;
+  gap: var(--esp-2) !important;
+  cursor: pointer;
+  color: var(--cor-texto) !important;
+  input { width: 18px; height: 18px; accent-color: var(--cor-vermelho); }
+}
+
+.convivencia {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--esp-4);
+
+  &__bloco {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-2);
+
+    > span { font-size: var(--tamanho-sm); color: var(--cor-texto-sec); }
+  }
+}
+
+.tri-estado {
+  display: flex;
+  gap: var(--esp-1);
+
+  button {
+    flex: 1;
+    padding: var(--esp-2) var(--esp-3);
+    border-radius: var(--raio-md);
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-fundo-alt);
+    cursor: pointer;
+    font-weight: var(--peso-medio);
+    color: var(--cor-texto);
+    transition: all var(--duracao-rapida) var(--ease-suave);
+
+    &:hover { border-color: var(--cor-pessego); }
+    &.ativo { background: var(--cor-vermelho); color: white; border-color: var(--cor-vermelho); }
+  }
+}
+
+.tag-input {
+  display: flex;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-3);
+
+  input {
+    flex: 1;
+    padding: var(--esp-3);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-md);
+    background: var(--cor-fundo-alt);
+    font-size: var(--tamanho-base);
+    &:focus { outline: none; border-color: var(--cor-vermelho); box-shadow: var(--sombra-foco); }
+  }
+}
+
+.tags-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--esp-1);
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--cor-texto-sec);
+      padding: 0 var(--esp-1);
+      &:hover { color: var(--cor-erro); }
+    }
+  }
+}
+
+.previews {
+  display: flex;
+  gap: var(--esp-3);
+  flex-wrap: wrap;
+  margin-top: var(--esp-4);
+}
+
+.preview {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--raio-md);
+  overflow: hidden;
+  border: 2px solid var(--cor-borda);
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  &__remover {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 24px; height: 24px;
+    border-radius: var(--raio-pill);
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--cor-erro);
+  }
+}
+
+.lista-vacinas {
+  margin-top: var(--esp-6) !important;
+  list-style: none;
+  padding: 0;
+  margin: var(--esp-4) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+
+  li {
+    padding: var(--esp-3);
+    background: var(--cor-fundo-alt);
+    border-radius: var(--raio-md);
+    display: flex;
+    align-items: center;
+    gap: var(--esp-2);
+    flex-wrap: wrap;
+
+    button { margin-left: auto; }
+  }
+}
+
+.texto-erro {
+  color: var(--cor-erro);
+  font-size: var(--tamanho-sm);
+  padding: var(--esp-3);
+  background: var(--cor-erro-fundo);
+  border-radius: var(--raio-md);
+  border: 1px solid var(--cor-erro);
+}
+
+.acoes-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--esp-3);
+}

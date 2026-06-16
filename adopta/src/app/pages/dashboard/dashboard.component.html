@@ -1,0 +1,128 @@
+<div class="container py-5">
+  <h2 class="fw-bold mb-4">Meu painel</h2>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  } @else {
+    <div class="row g-3 mb-5">
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <h3 class="fw-bold text-primary">{{ myPets.length }}</h3>
+          <p class="text-muted mb-0">Pets cadastrados</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <h3 class="fw-bold text-primary">{{ myAdoptions.length }}</h3>
+          <p class="text-muted mb-0">Minhas solicitações</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <h3 class="fw-bold text-primary">{{ receivedRequests.length }}</h3>
+          <p class="text-muted mb-0">Solicitações recebidas</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">Meus pets</h4>
+      <a routerLink="/pets/new" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-lg me-1"></i>Cadastrar pet
+      </a>
+    </div>
+
+    @if (myPets.length === 0) {
+      <div class="alert alert-light text-muted mb-5">Você ainda não cadastrou nenhum pet.</div>
+    } @else {
+      <div class="row g-3 mb-5">
+        @for (pet of myPets; track pet.id) {
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img [src]="pet.photos[0] || 'https://placehold.co/400x200?text=Sem+foto'"
+                class="card-img-top" style="height: 160px; object-fit: cover" [alt]="pet.name" />
+              <div class="card-body">
+                <h6 class="fw-bold">{{ pet.name }}</h6>
+                <p class="text-muted small mb-2">
+                  {{ pet.species === 'dog' ? 'Cachorro' : pet.species === 'cat' ? 'Gato' : 'Outro' }}
+                  · {{ pet.age }} ano(s)
+                </p>
+                <span class="badge"
+                  [class.bg-success]="pet.status === 'available'"
+                  [class.bg-warning]="pet.status === 'pending'"
+                  [class.bg-secondary]="pet.status === 'adopted'">
+                  {{ pet.status === 'available' ? 'Disponível' : pet.status === 'pending' ? 'Em análise' : 'Adotado' }}
+                </span>
+              </div>
+              <div class="card-footer bg-white border-0 d-flex gap-2">
+                <a [routerLink]="['/pets', pet.id]" class="btn btn-outline-primary btn-sm flex-grow-1">Ver</a>
+                <button class="btn btn-outline-danger btn-sm" (click)="deletePet(pet.id!)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <h4 class="fw-bold mb-3">Solicitações recebidas</h4>
+    @if (receivedRequests.length === 0) {
+      <div class="alert alert-light text-muted mb-5">Nenhuma solicitação recebida ainda.</div>
+    } @else {
+      <div class="card mb-5">
+        <ul class="list-group list-group-flush">
+          @for (req of receivedRequests; track req.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap gap-2 py-3">
+              <div>
+                <strong>{{ req.petName }}</strong>
+                <p class="text-muted small mb-0">{{ req.requesterName }} · {{ req.requesterEmail }}</p>
+                @if (req.message) {
+                  <p class="text-muted small mb-0 fst-italic">"{{ req.message }}"</p>
+                }
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge"
+                  [class.bg-warning]="req.status === 'pending'"
+                  [class.bg-success]="req.status === 'approved'"
+                  [class.bg-danger]="req.status === 'rejected'">
+                  {{ req.status === 'pending' ? 'Pendente' : req.status === 'approved' ? 'Aprovado' : 'Rejeitado' }}
+                </span>
+                @if (req.status === 'pending') {
+                  <button class="btn btn-success btn-sm" (click)="updateStatus(req.id!, 'approved')">Aprovar</button>
+                  <button class="btn btn-danger btn-sm" (click)="updateStatus(req.id!, 'rejected')">Rejeitar</button>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <h4 class="fw-bold mb-3">Minhas solicitações de adoção</h4>
+    @if (myAdoptions.length === 0) {
+      <div class="alert alert-light text-muted">Você ainda não solicitou nenhuma adoção.</div>
+    } @else {
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          @for (req of myAdoptions; track req.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+              <div>
+                <strong>{{ req.petName }}</strong>
+                <p class="text-muted small mb-0">Enviado em {{ formatDate(req.createdAt) }}</p>
+              </div>
+              <span class="badge"
+                [class.bg-warning]="req.status === 'pending'"
+                [class.bg-success]="req.status === 'approved'"
+                [class.bg-danger]="req.status === 'rejected'">
+                {{ req.status === 'pending' ? 'Pendente' : req.status === 'approved' ? 'Aprovado' : 'Rejeitado' }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  }
+</div>

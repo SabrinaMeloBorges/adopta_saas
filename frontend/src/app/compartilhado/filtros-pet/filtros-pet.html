@@ -1,0 +1,83 @@
+<aside class="filtros">
+  <header class="filtros__cabecalho">
+    <h3 class="filtros__titulo">Filtrar</h3>
+    <button type="button" class="filtros__limpar" (click)="limpar()">limpar tudo</button>
+  </header>
+
+  <label class="filtros__campo filtros__busca">
+    <span class="material-symbols-outlined">search</span>
+    <input
+      type="search"
+      placeholder="Nome ou raça…"
+      [ngModel]="busca()"
+      (ngModelChange)="busca.set($event); emitir()"
+    />
+  </label>
+
+  <div class="filtros__campo">
+    <label class="filtros__rotulo">Espécie</label>
+    <div class="filtros__chips">
+      @for (op of [
+        { v: '', t: 'Todas' },
+        { v: 'cachorro', t: 'Cachorros' },
+        { v: 'gato', t: 'Gatos' },
+        { v: 'outro', t: 'Outros' },
+      ]; track op.v) {
+        <button type="button"
+                class="chip"
+                [class.chip--ativo]="especie() === op.v"
+                (click)="especie.set(op.v); emitir()">
+          {{ op.t }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="filtros__campo">
+    <label class="filtros__rotulo">Porte</label>
+    <div class="filtros__chips">
+      @for (op of [
+        { v: '', t: 'Qualquer' },
+        { v: 'pequeno', t: 'Pequeno' },
+        { v: 'medio', t: 'Médio' },
+        { v: 'grande', t: 'Grande' },
+      ]; track op.v) {
+        <button type="button"
+                class="chip"
+                [class.chip--ativo]="porte() === op.v"
+                (click)="porte.set(op.v); emitir()">
+          {{ op.t }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="filtros__campo">
+    <label class="filtros__rotulo">Sexo</label>
+    <div class="filtros__chips">
+      @for (op of [
+        { v: '', t: 'Qualquer' },
+        { v: 'macho', t: 'Macho' },
+        { v: 'femea', t: 'Fêmea' },
+      ]; track op.v) {
+        <button type="button"
+                class="chip"
+                [class.chip--ativo]="sexo() === op.v"
+                (click)="sexo.set(op.v); emitir()">
+          {{ op.t }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="filtros__campo">
+    <label class="filtros__rotulo">Cidade</label>
+    <input
+      type="text"
+      class="filtros__input"
+      placeholder="Ex: São Paulo"
+      [ngModel]="cidade()"
+      (ngModelChange)="cidade.set($event); emitir()"
+    />
+  </div>
+</aside>

@@ -1,0 +1,10 @@
+.cabecalho-pagina {
+  margin-bottom: var(--esp-6);
+  h1 { margin: var(--esp-1) 0 var(--esp-3); }
+}
+
+.grade-pets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--esp-5);
+}

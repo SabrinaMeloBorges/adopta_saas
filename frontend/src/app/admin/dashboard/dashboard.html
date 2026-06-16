@@ -1,0 +1,52 @@
+<section class="container-conteudo secao">
+  <header class="cabecalho-pagina">
+    <p class="secao-sobrescrito">Painel administrativo</p>
+    <h1>Como tá o abrigo hoje</h1>
+  </header>
+
+  <div class="cards-indicadores">
+    <a routerLink="/admin/pets" class="card-indicador card-indicador--vermelho">
+      <span class="card-indicador__numero">{{ disponiveis() }}</span>
+      <span class="card-indicador__rotulo">pets disponíveis</span>
+    </a>
+    <a routerLink="/admin/pets" class="card-indicador card-indicador--laranja">
+      <span class="card-indicador__numero">{{ emProcesso() }}</span>
+      <span class="card-indicador__rotulo">em processo de adoção</span>
+    </a>
+    <a routerLink="/admin/pets" class="card-indicador card-indicador--amarelo">
+      <span class="card-indicador__numero">{{ adotados() }}</span>
+      <span class="card-indicador__rotulo">adoções concluídas</span>
+    </a>
+    <a routerLink="/admin/solicitacoes" class="card-indicador card-indicador--destaque">
+      <span class="card-indicador__numero">{{ solPendentes() }}</span>
+      <span class="card-indicador__rotulo">solicitações esperando você</span>
+    </a>
+  </div>
+
+  <div class="atalhos">
+    <h2>Atalhos</h2>
+    <div class="atalhos__grid">
+      <a routerLink="/admin/pets/novo" class="atalho">
+        <span class="material-symbols-outlined">add_circle</span>
+        <div>
+          <strong>Cadastrar um novo pet</strong>
+          <p class="texto-secundario">Bota fotos, ficha de vacinação, personalidade.</p>
+        </div>
+      </a>
+      <a routerLink="/admin/pets" class="atalho">
+        <span class="material-symbols-outlined">pets</span>
+        <div>
+          <strong>Gerenciar pets</strong>
+          <p class="texto-secundario">Edita, deleta, marca como adotado.</p>
+        </div>
+      </a>
+      <a routerLink="/admin/solicitacoes" class="atalho">
+        <span class="material-symbols-outlined">mark_email_unread</span>
+        <div>
+          <strong>Responder solicitações</strong>
+          <p class="texto-secundario">Aprova, rejeita ou conclui adoções.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

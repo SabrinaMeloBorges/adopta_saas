@@ -1,0 +1,38 @@
+<section class="container-conteudo secao">
+  <header class="cabecalho-pagina">
+    <p class="secao-sobrescrito">Pets disponíveis</p>
+    <h1>Quem você vai conhecer hoje?</h1>
+    <p class="texto-secundario">
+      Filtra do jeito que precisar. Sem pressa — esses bichinhos têm tempo.
+    </p>
+  </header>
+
+  <div class="layout-listagem">
+    <app-filtros-pet (alterados)="aoAlterarFiltros($event)" />
+
+    <div class="layout-listagem__corpo">
+      @if (carregando()) {
+        <div class="estado-vazio">
+          <span class="estado-vazio__icone material-symbols-outlined anim-balanco">pets</span>
+          <p>Procurando pets que combinam com você…</p>
+        </div>
+      } @else if (pets().length === 0) {
+        <div class="estado-vazio">
+          <span class="estado-vazio__icone material-symbols-outlined">search_off</span>
+          <h3 class="estado-vazio__titulo">Nenhum pet com esse filtro</h3>
+          <p>Tenta relaxar os critérios — quem sabe alguém te surpreende?</p>
+        </div>
+      } @else {
+        <p class="texto-secundario texto-pequeno contador">
+          {{ total() }} {{ total() === 1 ? 'pet encontrado' : 'pets encontrados' }}
+        </p>
+
+        <div class="grade-pets">
+          @for (pet of pets(); track pet.id; let i = $index) {
+            <app-cartao-pet [pet]="pet" [variante]="i" class="anim-subir" />
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+:root {
+  --bs-primary: #7C3AED;
+  --bs-primary-rgb: 124, 58, 237;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+}
+
+.btn-primary {
+  background-color: #FFA95A;
+  border-color: #FFA95A;
+  &:hover { background-color: #FF8B5A; border-color: #FF8B5A; }
+}
+
+.btn-outline-primary {
+  color: #7C3AED;
+  border-color: #7C3AED;
+  &:hover { background-color: #7C3AED; }
+}
+
+.text-primary { color: #FF8B5A !important; }
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}

@@ -1,0 +1,63 @@
+<header class="cabecalho" [class.cabecalho--menu-aberto]="menuAberto()">
+  <div class="container-conteudo cabecalho__interno">
+
+    <a class="logo" routerLink="/" (click)="fecharMenu()" aria-label="Adopta — página inicial">
+      <span class="logo__icone" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="32" height="32">
+          <g fill="currentColor">
+            <ellipse cx="20" cy="24" rx="9" ry="8"/>
+            <circle cx="9" cy="14" r="4.5"/>
+            <circle cx="15" cy="8" r="4"/>
+            <circle cx="25" cy="8" r="4"/>
+            <circle cx="31" cy="14" r="4.5"/>
+          </g>
+        </svg>
+      </span>
+      <span class="logo__texto">Adopta</span>
+    </a>
+
+    <button class="cabecalho__hamburguer" (click)="alternarMenu()" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="cabecalho__nav" [attr.aria-hidden]="!menuAberto()">
+      <a routerLink="/pets" routerLinkActive="ativo" (click)="fecharMenu()">Pets</a>
+      <a routerLink="/adotados" routerLinkActive="ativo" (click)="fecharMenu()">Adotados</a>
+      <a routerLink="/sobre" routerLinkActive="ativo" (click)="fecharMenu()">Sobre</a>
+
+      <a routerLink="/favoritos" class="link-favoritos" (click)="fecharMenu()" aria-label="Favoritos">
+        <span class="material-symbols-outlined">favorite</span>
+        @if (totalFavoritos() > 0) {
+          <span class="badge-mini">{{ totalFavoritos() }}</span>
+        }
+      </a>
+
+      @if (auth.autenticado()) {
+        <div class="menu-usuario">
+          @if (auth.ehAdmin()) {
+            <a routerLink="/admin" routerLinkActive="ativo" class="link-admin" (click)="fecharMenu()">
+              <span class="material-symbols-outlined">settings</span>
+              Painel
+            </a>
+          } @else {
+            <a routerLink="/minhas-solicitacoes" routerLinkActive="ativo" (click)="fecharMenu()">
+              Minhas solicitações
+            </a>
+          }
+          <span class="texto-secundario texto-pequeno">Oi, {{ auth.usuario()?.nome?.split(' ')?.[0] }}</span>
+          <button class="botao botao--fantasma botao--pequeno" (click)="sair()">Sair</button>
+        </div>
+      } @else {
+        <div class="menu-usuario">
+          <a routerLink="/login" class="botao botao--fantasma botao--pequeno" (click)="fecharMenu()">
+            Entrar
+          </a>
+          <a routerLink="/registrar" class="botao botao--primario botao--pequeno" (click)="fecharMenu()">
+            Criar conta
+          </a>
+        </div>
+      }
+    </nav>
+
+  </div>
+</header>

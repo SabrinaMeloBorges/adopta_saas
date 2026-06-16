@@ -1,0 +1,75 @@
+.cabecalho-pagina { margin-bottom: var(--esp-6); h1 { margin: var(--esp-1) 0 var(--esp-3); } }
+
+.lista-solic {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.solic {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  padding: var(--esp-5);
+
+  &[data-status="aprovada"] { border-left: 4px solid var(--cor-sucesso); }
+  &[data-status="rejeitada"] { border-left: 4px solid var(--cor-erro); opacity: 0.85; }
+  &[data-status="concluida"] { border-left: 4px solid var(--cor-info); }
+  &[data-status="pendente"] { border-left: 4px solid var(--cor-aviso); }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--esp-4);
+    margin-bottom: var(--esp-4);
+    flex-wrap: wrap;
+  }
+
+  &__pet {
+    margin: 0;
+    font-family: var(--fonte-display);
+    font-size: var(--tamanho-lg);
+    font-weight: var(--peso-bold);
+    a { color: var(--cor-texto); &:hover { color: var(--cor-vermelho); } }
+  }
+
+  &__status {
+    padding: var(--esp-1) var(--esp-3);
+    border-radius: var(--raio-pill);
+    font-size: var(--tamanho-xs);
+    font-weight: var(--peso-semibold);
+    background: var(--cor-fundo-alt);
+
+    &[data-status="aprovada"]  { background: var(--cor-sucesso-fundo); color: #4d7028; }
+    &[data-status="rejeitada"] { background: var(--cor-erro-fundo); color: var(--cor-erro); }
+    &[data-status="concluida"] { background: var(--cor-info-fundo); color: var(--cor-info); }
+    &[data-status="pendente"]  { background: var(--cor-aviso-fundo); color: #a06c10; }
+  }
+
+  &__corpo {
+    h4 {
+      font-size: var(--tamanho-sm);
+      color: var(--cor-texto-sec);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: var(--esp-3) 0 var(--esp-2);
+    }
+    blockquote {
+      margin: 0;
+      padding: var(--esp-3);
+      background: var(--cor-fundo-alt);
+      border-radius: var(--raio-md);
+      font-style: italic;
+      color: var(--cor-texto);
+    }
+  }
+
+  &__resposta {
+    border-left: 3px solid var(--cor-vermelho);
+    background: var(--cor-erro-fundo) !important;
+    font-style: normal !important;
+  }
+}

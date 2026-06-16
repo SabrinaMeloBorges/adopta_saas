@@ -1,0 +1,57 @@
+<article class="cartao-pet" [attr.data-variante]="variante() % 4" [class.cartao-pet--adotado]="pet().status === 'adotado'">
+  <a [routerLink]="['/pets', pet().id]" class="cartao-pet__link">
+
+    <div class="cartao-pet__media">
+      @if (imagemUrl(); as url) {
+        <img [src]="url" [alt]="'Foto de ' + nomeOuFallback()" loading="lazy" />
+      } @else {
+        <div class="cartao-pet__media-vazia" aria-hidden="true">
+          <span class="material-symbols-outlined">pets</span>
+        </div>
+      }
+
+      <button class="cartao-pet__favoritar"
+              type="button"
+              [class.favoritado]="favoritado()"
+              (click)="alternarFavorito($event)"
+              [attr.aria-label]="favoritado() ? 'Remover dos favoritos' : 'Favoritar este pet'">
+        <span class="material-symbols-outlined">{{ favoritado() ? 'favorite' : 'favorite' }}</span>
+      </button>
+
+      @if (pet().status !== 'disponivel') {
+        <div class="cartao-pet__status-overlay">
+          <app-badge-status [status]="pet().status" />
+        </div>
+      }
+    </div>
+
+    <div class="cartao-pet__corpo">
+      <header class="cartao-pet__cabecalho">
+        <h3 class="cartao-pet__nome">{{ nomeOuFallback() }}</h3>
+        <span class="cartao-pet__sexo" [attr.title]="pet().sexo === 'macho' ? 'Macho' : 'Fêmea'">
+          {{ pet().sexo === 'macho' ? '♂' : '♀' }}
+        </span>
+      </header>
+
+      <p class="cartao-pet__meta">
+        {{ pet().raca }} · {{ porteTexto() }} · {{ idadeTexto() }}
+      </p>
+
+      @if (pet().tags && pet().tags!.length > 0) {
+        <ul class="cartao-pet__tags">
+          @for (tag of pet().tags!.slice(0, 3); track tag) {
+            <li class="tag tag--pessego">{{ tag }}</li>
+          }
+        </ul>
+      }
+
+      @if (pet().cidade) {
+        <p class="cartao-pet__local">
+          <span class="material-symbols-outlined">place</span>
+          {{ pet().cidade }}, {{ pet().estado }}
+        </p>
+      }
+    </div>
+
+  </a>
+</article>

@@ -1,0 +1,89 @@
+// =====================================================
+// Adopta — Estilos globais
+// =====================================================
+
+@use '@angular/material' as mat;
+@use 'bootstrap/scss/bootstrap-grid';
+@use 'bootstrap/scss/bootstrap-utilities';
+
+// Tokens definem variáveis CSS (carregar antes do resto)
+@use './styles/tokens';
+@use './styles/typography';
+@use './styles/animations';
+@use './styles/layout';
+
+// ---- Tema Material 3 com paleta warm ----
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$rose-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: (
+      plain-family: 'Inter, system-ui, sans-serif',
+      brand-family: 'Fraunces, Georgia, serif',
+      bold-weight: 700,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: 0,
+  ));
+
+  // Sobrescreve tokens de cor do Material com nossa paleta warm
+  --mat-sys-primary: var(--cor-vermelho);
+  --mat-sys-on-primary: #fff;
+  --mat-sys-primary-container: var(--cor-pessego);
+  --mat-sys-on-primary-container: var(--cor-texto);
+
+  --mat-sys-tertiary: var(--cor-laranja);
+  --mat-sys-on-tertiary: #fff;
+
+  --mat-sys-surface: var(--cor-fundo);
+  --mat-sys-on-surface: var(--cor-texto);
+  --mat-sys-surface-container: var(--cor-superficie);
+  --mat-sys-surface-container-low: var(--cor-fundo);
+  --mat-sys-surface-container-high: var(--cor-fundo-alt);
+  --mat-sys-outline: var(--cor-borda-forte);
+  --mat-sys-outline-variant: var(--cor-borda);
+
+  --mat-sys-error: var(--cor-erro);
+  --mat-sys-on-error: #fff;
+}
+
+// ---- Reset & base ----
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color-scheme: light;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-corpo);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+// ---- Scrollbar warm ----
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--cor-fundo-alt); }
+::-webkit-scrollbar-thumb {
+  background: var(--cor-pessego);
+  border-radius: var(--raio-pill);
+  border: 3px solid var(--cor-fundo-alt);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--cor-laranja); }
+
+// ---- Seleção de texto warm ----
+::selection {
+  background: var(--cor-amarelo);
+  color: var(--cor-texto);
+}

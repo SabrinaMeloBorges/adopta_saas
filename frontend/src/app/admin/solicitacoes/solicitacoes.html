@@ -1,0 +1,83 @@
+<section class="container-conteudo secao">
+  <header class="topo-pagina">
+    <div>
+      <p class="secao-sobrescrito">Admin</p>
+      <h1>Solicitações de adoção</h1>
+    </div>
+    <div class="filtro-status">
+      @for (op of [
+        { v: '', t: 'Todas' },
+        { v: 'pendente', t: 'Pendentes' },
+        { v: 'aprovada', t: 'Aprovadas' },
+        { v: 'rejeitada', t: 'Rejeitadas' },
+        { v: 'concluida', t: 'Concluídas' },
+      ]; track op.v) {
+        <button class="chip" [class.chip--ativo]="filtroStatus() === op.v" (click)="filtroStatus.set(op.v)">{{ op.t }}</button>
+      }
+    </div>
+  </header>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined anim-balanco">mark_email_unread</span>
+      <p>Carregando…</p>
+    </div>
+  } @else if (filtradas.length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined">inbox</span>
+      <p>Nenhuma solicitação por aqui.</p>
+    </div>
+  } @else {
+    <ul class="lista-solicit">
+      @for (s of filtradas; track s.id) {
+        <li class="solicit" [attr.data-status]="s.status">
+          <div class="solicit__topo">
+            <div>
+              <p class="solicit__pet">
+                <a [routerLink]="['/pets', s.pet_id]">
+                  {{ s.pet_nome || 'Sem nome' }}
+                </a>
+                <span class="texto-secundario">· {{ s.pet_especie }} {{ s.pet_raca }}</span>
+              </p>
+              <p class="texto-secundario texto-pequeno">
+                {{ s.usuario_nome }} ({{ s.usuario_email }}{{ s.usuario_telefone ? ' · ' + s.usuario_telefone : '' }})
+                · {{ s.criado_em | date:'dd/MM/yyyy HH:mm':'':'pt-BR' }}
+              </p>
+            </div>
+            <span class="solicit__status" [attr.data-status]="s.status">{{ s.status }}</span>
+          </div>
+
+          <div class="solicit__corpo">
+            <blockquote>{{ s.mensagem }}</blockquote>
+            @if (s.resposta_admin) {
+              <p class="resposta"><strong>Resposta enviada:</strong> {{ s.resposta_admin }}</p>
+            }
+          </div>
+
+          @if (respondendoId() === s.id) {
+            <div class="solicit__resposta-form">
+              <label>
+                Resposta para o adotante (opcional)
+                <textarea rows="3" [ngModel]="respostaTexto()" (ngModelChange)="respostaTexto.set($event)" name="resposta"></textarea>
+              </label>
+              <div class="solicit__acoes">
+                <button class="botao botao--fantasma botao--pequeno" (click)="respondendoId.set(null)">Cancelar</button>
+                <button class="botao botao--secundario botao--pequeno" (click)="mudarStatus(s, 'rejeitada')">Rejeitar</button>
+                <button class="botao botao--primario botao--pequeno" (click)="mudarStatus(s, 'aprovada')">Aprovar</button>
+              </div>
+            </div>
+          } @else {
+            <div class="solicit__acoes">
+              @if (s.status === 'pendente') {
+                <button class="botao botao--fantasma botao--pequeno" (click)="abrirResposta(s.id, s.resposta_admin)">Responder</button>
+              }
+              @if (s.status === 'aprovada') {
+                <button class="botao botao--primario botao--pequeno" (click)="mudarStatus(s, 'concluida')">Marcar como concluída</button>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

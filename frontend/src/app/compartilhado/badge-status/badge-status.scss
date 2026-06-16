@@ -1,0 +1,37 @@
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: var(--esp-1) var(--esp-3);
+  border-radius: var(--raio-pill);
+  font-size: var(--tamanho-xs);
+  font-weight: var(--peso-semibold);
+  border: 1px solid currentColor;
+
+  &__ponto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: piscar-pata 2s var(--ease-suave) infinite;
+  }
+
+  &--disponivel {
+    color: #4d7028;
+    background: var(--cor-sucesso-fundo);
+    border-color: var(--cor-sucesso);
+  }
+
+  &--em_processo {
+    color: #a06c10;
+    background: var(--cor-aviso-fundo);
+    border-color: var(--cor-aviso);
+  }
+
+  &--adotado {
+    color: var(--cor-info);
+    background: var(--cor-info-fundo);
+    border-color: var(--cor-info);
+    .badge-status__ponto { animation: none; }
+  }
+}

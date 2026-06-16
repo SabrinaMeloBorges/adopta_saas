@@ -1,0 +1,82 @@
+.cabecalho-pagina { margin-bottom: var(--esp-6); h1 { margin: var(--esp-1) 0 var(--esp-3); } }
+
+.cards-indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--esp-4);
+  margin-bottom: var(--esp-7);
+}
+
+.card-indicador {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  padding: var(--esp-5);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  transition: transform var(--duracao-rapida) var(--ease-spring), box-shadow var(--duracao-rapida) var(--ease-suave);
+
+  &:hover { transform: translateY(-2px); box-shadow: var(--sombra-md); }
+
+  &__numero {
+    font-family: var(--fonte-display);
+    font-size: var(--tamanho-3xl);
+    font-weight: var(--peso-bold);
+    line-height: 1;
+  }
+  &__rotulo {
+    color: var(--cor-texto-sec);
+    font-size: var(--tamanho-sm);
+  }
+
+  &--vermelho .card-indicador__numero { color: var(--cor-vermelho); }
+  &--laranja  .card-indicador__numero { color: var(--cor-laranja); }
+  &--amarelo  .card-indicador__numero { color: #c8a200; }
+
+  &--destaque {
+    background: var(--cor-vermelho);
+    color: white;
+    border-color: var(--cor-vermelho);
+    border-radius: var(--raio-xl) var(--raio-md) var(--raio-xl) var(--raio-md);
+    .card-indicador__numero, .card-indicador__rotulo { color: white; }
+  }
+}
+
+.atalhos {
+  h2 { margin-bottom: var(--esp-4); font-size: var(--tamanho-xl); }
+}
+
+.atalhos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--esp-4);
+}
+
+.atalho {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+  padding: var(--esp-5);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--duracao-rapida) var(--ease-suave);
+
+  .material-symbols-outlined {
+    font-size: 32px;
+    color: var(--cor-vermelho);
+    background: var(--cor-erro-fundo);
+    padding: var(--esp-2);
+    border-radius: var(--raio-pill);
+  }
+
+  strong { font-family: var(--fonte-display); font-size: var(--tamanho-md); }
+  p { margin: var(--esp-1) 0 0; font-size: var(--tamanho-sm); }
+
+  &:hover { border-color: var(--cor-pessego); transform: translateX(4px); }
+}

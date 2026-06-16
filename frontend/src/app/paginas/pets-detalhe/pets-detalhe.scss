@@ -1,0 +1,290 @@
+.detalhe { padding-block: var(--esp-6) var(--esp-8); }
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  color: var(--cor-texto-sec);
+  text-decoration: none;
+  margin-bottom: var(--esp-5);
+  transition: color var(--duracao-rapida) var(--ease-suave);
+
+  &:hover { color: var(--cor-vermelho); transform: translateX(-2px); }
+  .material-symbols-outlined { font-size: 18px; }
+}
+
+.detalhe__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-7);
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: var(--esp-5);
+  }
+}
+
+// Galeria
+.galeria {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  position: sticky;
+  top: calc(var(--altura-cabecalho) + var(--esp-4));
+
+  @media (max-width: 900px) { position: static; }
+
+  &__principal {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--raio-xl) var(--raio-md) var(--raio-xl) var(--raio-md);
+    overflow: hidden;
+    background: var(--cor-fundo-alt);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__vazia {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--cor-pessego), var(--cor-amarelo));
+    .material-symbols-outlined { font-size: 96px; opacity: 0.5; }
+  }
+
+  &__status {
+    position: absolute;
+    top: var(--esp-3);
+    left: var(--esp-3);
+  }
+
+  &__miniaturas {
+    display: flex;
+    gap: var(--esp-2);
+    flex-wrap: wrap;
+
+    button {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--raio-md);
+      overflow: hidden;
+      border: 2px solid var(--cor-borda);
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all var(--duracao-rapida) var(--ease-suave);
+
+      img { width: 100%; height: 100%; object-fit: cover; }
+      &:hover { border-color: var(--cor-pessego); }
+      &.ativa { border-color: var(--cor-vermelho); }
+    }
+  }
+}
+
+// Info
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+.info__topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--esp-4);
+}
+
+.info__especie {
+  font-size: var(--tamanho-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--cor-texto-sec);
+  margin: 0 0 var(--esp-1);
+}
+
+.info__nome {
+  font-size: clamp(var(--tamanho-2xl), 4vw, var(--tamanho-3xl));
+  margin: 0;
+}
+
+.botao-favoritar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--raio-pill);
+  background: var(--cor-fundo-alt);
+  border: 2px solid var(--cor-borda);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cor-texto-sec);
+  transition: all var(--duracao-rapida) var(--ease-spring);
+
+  .material-symbols-outlined { font-size: 24px; font-variation-settings: 'FILL' 0; }
+
+  &:hover { transform: scale(1.08); color: var(--cor-vermelho); }
+  &.favoritado {
+    background: var(--cor-erro-fundo);
+    border-color: var(--cor-vermelho);
+    color: var(--cor-vermelho);
+    .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+  }
+}
+
+.info__tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.info__dados {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--esp-3) var(--esp-5);
+  margin: 0;
+  padding: var(--esp-5);
+  background: var(--cor-fundo-alt);
+  border-radius: var(--raio-lg);
+
+  > div { margin: 0; }
+  dt { font-size: var(--tamanho-xs); color: var(--cor-texto-sec); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+  dd { font-weight: var(--peso-medio); margin: 0; }
+}
+
+.info__cuidados h3 {
+  font-size: var(--tamanho-md);
+  margin-bottom: var(--esp-3);
+}
+
+.checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--esp-2);
+    color: var(--cor-texto-sec);
+
+    .material-symbols-outlined { color: var(--cor-borda-forte); }
+
+    &.sim { color: var(--cor-texto); .material-symbols-outlined { color: var(--cor-sucesso); } }
+  }
+}
+
+.botao--cta {
+  font-size: var(--tamanho-md);
+  padding: var(--esp-4) var(--esp-6);
+}
+
+// Caixas de feedback
+.caixa-sucesso, .caixa-aviso, .caixa-info {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border-radius: var(--raio-lg);
+
+  .material-symbols-outlined { font-size: 32px; flex-shrink: 0; }
+  h3 { margin: 0 0 var(--esp-1); font-size: var(--tamanho-lg); }
+  p { margin: 0; }
+}
+
+.caixa-sucesso { background: var(--cor-sucesso-fundo); border: 1px solid var(--cor-sucesso); color: #4d7028; }
+.caixa-aviso { background: var(--cor-aviso-fundo); border: 1px solid var(--cor-aviso); color: #a06c10; }
+.caixa-info { background: var(--cor-info-fundo); border: 1px solid var(--cor-info); }
+
+// Formulário
+.formulario-adocao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding: var(--esp-5);
+  background: var(--cor-fundo-alt);
+  border-radius: var(--raio-lg);
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-2);
+    font-weight: var(--peso-medio);
+  }
+
+  textarea {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-md);
+    padding: var(--esp-3);
+    background: var(--cor-superficie);
+    font-family: inherit;
+    font-size: var(--tamanho-base);
+    resize: vertical;
+    transition: border-color var(--duracao-rapida) var(--ease-suave);
+
+    &:focus { outline: none; border-color: var(--cor-vermelho); box-shadow: var(--sombra-foco); }
+  }
+
+  &__acoes {
+    display: flex;
+    gap: var(--esp-3);
+    justify-content: flex-end;
+  }
+}
+
+.texto-erro {
+  color: var(--cor-erro);
+  font-size: var(--tamanho-sm);
+  margin: 0;
+}
+
+// História + Vacinas
+.historia, .vacinas {
+  margin-top: var(--esp-8);
+  padding-top: var(--esp-7);
+  border-top: 1px solid var(--cor-borda);
+
+  h2 { font-size: var(--tamanho-2xl); margin-bottom: var(--esp-4); }
+}
+
+.historia__resumo {
+  font-size: var(--tamanho-md);
+  font-style: italic;
+  color: var(--cor-texto-sec);
+  max-width: var(--largura-leitura);
+}
+
+.historia__corpo {
+  max-width: var(--largura-leitura);
+  line-height: var(--altura-linha-solta);
+}
+
+.tabela-vacinas {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    text-align: left;
+    padding: var(--esp-3);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+  th {
+    font-size: var(--tamanho-sm);
+    color: var(--cor-texto-sec);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+}

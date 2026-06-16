@@ -1,0 +1,32 @@
+<section class="container-conteudo secao tela-auth">
+  <div class="tela-auth__caixa">
+    <p class="secao-sobrescrito">Oi de novo</p>
+    <h1>Que bom que voltou</h1>
+    <p class="texto-secundario">Entra pra acompanhar suas solicitações e adotar bichinhos novos.</p>
+
+    <form (submit)="$event.preventDefault(); enviar()" class="form-auth">
+      <label>
+        E-mail
+        <input type="email" autocomplete="email" required
+               [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
+      </label>
+      <label>
+        Senha
+        <input type="password" autocomplete="current-password" required
+               [ngModel]="senha()" (ngModelChange)="senha.set($event)" name="senha" />
+      </label>
+
+      @if (erro()) {
+        <p class="texto-erro">{{ erro() }}</p>
+      }
+
+      <button class="botao botao--primario" type="submit" [disabled]="enviando()">
+        {{ enviando() ? 'Entrando…' : 'Entrar' }}
+      </button>
+    </form>
+
+    <p class="texto-secundario texto-pequeno tela-auth__rodape">
+      Não tem conta ainda? <a routerLink="/registrar">Cria uma agora</a>.
+    </p>
+  </div>
+</section>

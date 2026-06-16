@@ -1,0 +1,72 @@
+<section class="container-conteudo secao">
+  <header class="topo-pagina">
+    <div>
+      <p class="secao-sobrescrito">Admin</p>
+      <h1>Gerenciar pets</h1>
+    </div>
+    <a routerLink="/admin/pets/novo" class="botao botao--primario">
+      <span class="material-symbols-outlined">add</span>
+      Novo pet
+    </a>
+  </header>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined anim-balanco">pets</span>
+      <p>Carregando…</p>
+    </div>
+  } @else if (pets().length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined">pets</span>
+      <p>Nenhum pet cadastrado ainda. Que tal o primeiro?</p>
+      <a routerLink="/admin/pets/novo" class="botao botao--primario">Cadastrar agora</a>
+    </div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela-admin">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Pet</th>
+            <th>Espécie / Raça</th>
+            <th>Porte</th>
+            <th>Status</th>
+            <th>Cidade</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pet of pets(); track pet.id) {
+            <tr>
+              <td class="tabela-admin__foto">
+                @if (pet.foto_principal) {
+                  <img [src]="'data:' + pet.foto_principal.mime_type + ';base64,' + pet.foto_principal.foto_base64" alt="" />
+                } @else {
+                  <div class="placeholder-foto"><span class="material-symbols-outlined">pets</span></div>
+                }
+              </td>
+              <td>
+                <a [routerLink]="['/pets', pet.id]">{{ pet.nome || 'Sem nome' }}</a>
+              </td>
+              <td class="texto-secundario">
+                {{ pet.especie === 'cachorro' ? 'Cachorro' : pet.especie === 'gato' ? 'Gato' : 'Outro' }}
+                · {{ pet.raca }}
+              </td>
+              <td class="texto-secundario">
+                {{ pet.porte === 'pequeno' ? 'P' : pet.porte === 'medio' ? 'M' : 'G' }}
+              </td>
+              <td><app-badge-status [status]="pet.status" /></td>
+              <td class="texto-secundario">{{ pet.cidade || '—' }}</td>
+              <td class="tabela-admin__acoes">
+                <a [routerLink]="['/admin/pets', pet.id, 'editar']" class="botao botao--fantasma botao--pequeno">Editar</a>
+                <button class="botao botao--fantasma botao--pequeno" (click)="deletar(pet)">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

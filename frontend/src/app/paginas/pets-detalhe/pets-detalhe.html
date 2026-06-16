@@ -1,0 +1,202 @@
+@if (carregando()) {
+  <div class="container-conteudo secao estado-vazio">
+    <span class="estado-vazio__icone material-symbols-outlined anim-balanco">pets</span>
+    <p>Buscando esse bichinho…</p>
+  </div>
+} @else if (erro()) {
+  <div class="container-conteudo secao estado-vazio">
+    <span class="estado-vazio__icone material-symbols-outlined">sentiment_dissatisfied</span>
+    <h3 class="estado-vazio__titulo">Ué…</h3>
+    <p>{{ erro() }}</p>
+    <a routerLink="/pets" class="botao botao--primario">Ver outros pets</a>
+  </div>
+} @else if (pet(); as p) {
+  <article class="detalhe container-conteudo">
+
+    <a routerLink="/pets" class="voltar">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Voltar pra lista
+    </a>
+
+    <div class="detalhe__grid">
+
+      <!-- Galeria -->
+      <div class="galeria">
+        <div class="galeria__principal">
+          @if (fotoAtual(); as url) {
+            <img [src]="url" [alt]="'Foto de ' + (p.nome || 'pet')" />
+          } @else {
+            <div class="galeria__vazia"><span class="material-symbols-outlined">pets</span></div>
+          }
+          <app-badge-status [status]="p.status" class="galeria__status" />
+        </div>
+
+        @if (p.fotos && p.fotos.length > 1) {
+          <div class="galeria__miniaturas">
+            @for (foto of p.fotos; track foto.id; let i = $index) {
+              <button (click)="mudarFoto(i)" [class.ativa]="fotoAtiva() === i" aria-label="Mudar foto">
+                <img [src]="'data:' + foto.mime_type + ';base64,' + foto.foto_base64" alt="" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Info -->
+      <div class="info">
+        <div class="info__topo">
+          <div>
+            <p class="info__especie">{{ p.especie === 'cachorro' ? 'Cachorro' : p.especie === 'gato' ? 'Gato' : 'Outro' }} · {{ p.raca }}</p>
+            <h1 class="info__nome">{{ p.nome || 'Sem nome ainda' }}</h1>
+          </div>
+          <button class="botao-favoritar" (click)="alternarFavorito()" [class.favoritado]="favoritado()"
+                  [attr.aria-label]="favoritado() ? 'Remover dos favoritos' : 'Favoritar'">
+            <span class="material-symbols-outlined">favorite</span>
+          </button>
+        </div>
+
+        @if (p.tags && p.tags.length > 0) {
+          <ul class="info__tags">
+            @for (tag of p.tags; track tag) {
+              <li class="tag tag--pessego">{{ tag }}</li>
+            }
+          </ul>
+        }
+
+        <dl class="info__dados">
+          <div><dt>Sexo</dt><dd>{{ p.sexo === 'macho' ? 'Macho ♂' : 'Fêmea ♀' }}</dd></div>
+          <div><dt>Idade</dt><dd>{{ idadeTexto() }}</dd></div>
+          <div><dt>Porte</dt><dd>{{ p.porte === 'pequeno' ? 'Pequeno' : p.porte === 'medio' ? 'Médio' : 'Grande' }}</dd></div>
+          @if (p.peso_kg) { <div><dt>Peso</dt><dd>{{ p.peso_kg }} kg</dd></div> }
+          @if (p.cor_pelagem) { <div><dt>Pelagem</dt><dd>{{ p.cor_pelagem }}</dd></div> }
+          @if (p.cidade) { <div><dt>Onde tá</dt><dd>{{ p.cidade }}, {{ p.estado }}</dd></div> }
+          @if (p.abrigo) { <div><dt>Abrigo</dt><dd>{{ p.abrigo }}</dd></div> }
+        </dl>
+
+        <div class="info__cuidados">
+          <h3>Saúde</h3>
+          <ul class="checks">
+            <li [class.sim]="p.castrado">
+              <span class="material-symbols-outlined">{{ p.castrado ? 'check_circle' : 'radio_button_unchecked' }}</span>
+              {{ p.castrado ? 'Castrado(a)' : 'Ainda não castrado(a)' }}
+            </li>
+            <li [class.sim]="p.vermifugado">
+              <span class="material-symbols-outlined">{{ p.vermifugado ? 'check_circle' : 'radio_button_unchecked' }}</span>
+              {{ p.vermifugado ? 'Vermifugado(a)' : 'Ainda não vermifugado(a)' }}
+            </li>
+          </ul>
+        </div>
+
+        @if (p.bom_com_criancas !== null || p.bom_com_outros_pets !== null || p.bom_em_apartamento !== null) {
+          <div class="info__cuidados">
+            <h3>Convivência</h3>
+            <ul class="checks">
+              @if (p.bom_com_criancas !== null) {
+                <li [class.sim]="p.bom_com_criancas">
+                  <span class="material-symbols-outlined">{{ p.bom_com_criancas ? 'check_circle' : 'cancel' }}</span>
+                  {{ p.bom_com_criancas ? 'Curte crianças' : 'Melhor sem crianças' }}
+                </li>
+              }
+              @if (p.bom_com_outros_pets !== null) {
+                <li [class.sim]="p.bom_com_outros_pets">
+                  <span class="material-symbols-outlined">{{ p.bom_com_outros_pets ? 'check_circle' : 'cancel' }}</span>
+                  {{ p.bom_com_outros_pets ? 'Curte outros pets' : 'Prefere ser filho único' }}
+                </li>
+              }
+              @if (p.bom_em_apartamento !== null) {
+                <li [class.sim]="p.bom_em_apartamento">
+                  <span class="material-symbols-outlined">{{ p.bom_em_apartamento ? 'check_circle' : 'cancel' }}</span>
+                  {{ p.bom_em_apartamento ? 'Adapta em apartamento' : 'Precisa de quintal' }}
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        <!-- CTA -->
+        @if (p.status === 'disponivel') {
+          @if (!mostrarFormulario() && !sucesso()) {
+            <button class="botao botao--primario botao--cta" (click)="abrirFormulario()">
+              Quero adotar {{ p.nome || 'esse pet' }}
+              <span class="material-symbols-outlined">favorite</span>
+            </button>
+          } @else if (sucesso()) {
+            <div class="caixa-sucesso anim-spring">
+              <span class="material-symbols-outlined">celebration</span>
+              <div>
+                <h3>Solicitação enviada!</h3>
+                <p>A gente entra em contato em breve. Enquanto isso, dá uma olhada nas
+                  <a routerLink="/minhas-solicitacoes">suas solicitações</a>.</p>
+              </div>
+            </div>
+          } @else {
+            <form class="formulario-adocao" (submit)="$event.preventDefault(); enviarSolicitacao()">
+              <label>
+                Por que esse pet?
+                <textarea
+                  rows="4"
+                  placeholder="Conta um pouquinho da sua rotina, da sua casa, do que você espera dessa convivência…"
+                  [ngModel]="mensagem()"
+                  (ngModelChange)="mensagem.set($event)"
+                  name="mensagem"
+                  required
+                ></textarea>
+              </label>
+              @if (erroEnvio()) {
+                <p class="texto-erro">{{ erroEnvio() }}</p>
+              }
+              <div class="formulario-adocao__acoes">
+                <button type="button" class="botao botao--fantasma" (click)="mostrarFormulario.set(false)">Voltar</button>
+                <button type="submit" class="botao botao--primario" [disabled]="enviando()">
+                  {{ enviando() ? 'Enviando…' : 'Enviar solicitação' }}
+                </button>
+              </div>
+            </form>
+          }
+        } @else if (p.status === 'em_processo') {
+          <div class="caixa-aviso">
+            <span class="material-symbols-outlined">schedule</span>
+            <p>Esse pet já tá em processo de adoção. Você ainda pode favoritar e torcer junto!</p>
+          </div>
+        } @else {
+          <div class="caixa-info">
+            <span class="material-symbols-outlined">celebration</span>
+            <p>Esse aqui já encontrou casa. Olha as outras <a routerLink="/pets">histórias esperando</a> 🐾</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- História -->
+    @if (p.descricao || p.historia) {
+      <section class="historia">
+        <h2>História</h2>
+        @if (p.descricao) { <p class="historia__resumo">{{ p.descricao }}</p> }
+        @if (p.historia) { <p class="historia__corpo">{{ p.historia }}</p> }
+      </section>
+    }
+
+    <!-- Vacinas -->
+    @if (p.vacinas && p.vacinas.length > 0) {
+      <section class="vacinas">
+        <h2>Ficha de vacinação</h2>
+        <table class="tabela-vacinas">
+          <thead>
+            <tr><th>Vacina</th><th>Aplicada</th><th>Próxima dose</th><th>Notas</th></tr>
+          </thead>
+          <tbody>
+            @for (v of p.vacinas; track v.id) {
+              <tr>
+                <td>{{ v.nome_vacina }}</td>
+                <td>{{ v.data_aplicacao | date:'dd/MM/yyyy':'':'pt-BR' }}</td>
+                <td>{{ v.proxima_dose ? (v.proxima_dose | date:'dd/MM/yyyy':'':'pt-BR') : '—' }}</td>
+                <td class="texto-secundario">{{ v.observacoes || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+    }
+
+  </article>
+}

@@ -1,0 +1,92 @@
+// =====================================================
+// Adopta — Tokens de design (variáveis CSS globais)
+// =====================================================
+
+:root {
+  // ---- Paleta warm (referência da imagem) ----
+  --cor-vermelho:     #FA5C5C;
+  --cor-laranja:      #FD8A6B;
+  --cor-pessego:      #FEC288;
+  --cor-amarelo:      #FBEF76;
+
+  // ---- Neutros quentes ----
+  --cor-fundo:        #FFF8F0;
+  --cor-fundo-alt:    #FBEFE0;
+  --cor-superficie:   #FFFFFF;
+  --cor-texto:        #2B1810;
+  --cor-texto-sec:    #7A5C4E;
+  --cor-borda:        #F0E0D0;
+  --cor-borda-forte:  #D9C0A0;
+
+  // ---- Semânticas ----
+  --cor-sucesso:      #A8C97A;
+  --cor-sucesso-fundo:#EEF5E0;
+  --cor-aviso:        #F0B040;
+  --cor-aviso-fundo:  #FCEBC8;
+  --cor-erro:         #E04848;
+  --cor-erro-fundo:   #FBE3E3;
+  --cor-info:         #6B9BCC;
+  --cor-info-fundo:   #E3EEF8;
+
+  // ---- Sombras (warm, baseadas em marrom) ----
+  --sombra-sm: 0 1px 2px rgba(120, 60, 20, 0.08);
+  --sombra-md: 0 4px 12px rgba(120, 60, 20, 0.10);
+  --sombra-lg: 0 12px 32px rgba(120, 60, 20, 0.14);
+  --sombra-foco: 0 0 0 3px rgba(250, 92, 92, 0.25);
+
+  // ---- Raios (M3 Expressive — variação intencional) ----
+  --raio-sm: 8px;
+  --raio-md: 16px;
+  --raio-lg: 24px;
+  --raio-xl: 32px;
+  --raio-pill: 999px;
+
+  // ---- Tipografia ----
+  --fonte-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --fonte-corpo:   'Inter', system-ui, -apple-system, sans-serif;
+
+  --tamanho-xs:   0.75rem;
+  --tamanho-sm:   0.875rem;
+  --tamanho-base: 1rem;
+  --tamanho-md:   1.125rem;
+  --tamanho-lg:   1.375rem;
+  --tamanho-xl:   1.75rem;
+  --tamanho-2xl:  2.25rem;
+  --tamanho-3xl:  3rem;
+  --tamanho-4xl:  4rem;
+
+  --peso-regular:  400;
+  --peso-medio:    500;
+  --peso-semibold: 600;
+  --peso-bold:     700;
+
+  --altura-linha-apertada: 1.15;
+  --altura-linha-normal:   1.5;
+  --altura-linha-solta:    1.75;
+
+  // ---- Espaçamento (escala 4px) ----
+  --esp-1: 0.25rem;
+  --esp-2: 0.5rem;
+  --esp-3: 0.75rem;
+  --esp-4: 1rem;
+  --esp-5: 1.5rem;
+  --esp-6: 2rem;
+  --esp-7: 3rem;
+  --esp-8: 4rem;
+  --esp-9: 6rem;
+
+  // ---- Easings (M3 Expressive — springs e suaves) ----
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-suave:    cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-saida:    cubic-bezier(0.4, 0.0, 1, 1);
+  --ease-entrada:  cubic-bezier(0, 0, 0.2, 1);
+
+  --duracao-rapida: 150ms;
+  --duracao-media:  280ms;
+  --duracao-longa:  450ms;
+
+  // ---- Layout ----
+  --largura-conteudo: 1200px;
+  --largura-leitura:  72ch;
+  --altura-cabecalho: 72px;
+}

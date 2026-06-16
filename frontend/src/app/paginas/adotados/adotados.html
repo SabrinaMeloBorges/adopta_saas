@@ -1,0 +1,27 @@
+<section class="container-conteudo secao">
+  <header class="cabecalho-pagina">
+    <p class="secao-sobrescrito">Histórias felizes</p>
+    <h1>Esses encontraram casa</h1>
+    <p class="texto-secundario">
+      Cada cartão aqui é uma mudança. Saída do abrigo, entrada na cama de alguém.
+    </p>
+  </header>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined anim-balanco">celebration</span>
+      <p>Buscando as histórias…</p>
+    </div>
+  } @else if (pets().length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined">pets</span>
+      <p>Ainda nenhum pet adotado por aqui. Mas estamos torcendo.</p>
+    </div>
+  } @else {
+    <div class="grade-pets">
+      @for (pet of pets(); track pet.id; let i = $index) {
+        <app-cartao-pet [pet]="pet" [variante]="i" />
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,68 @@
+// =====================================================
+// Adopta — Tipografia global
+// =====================================================
+
+@import '@fontsource/fraunces/400.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/fraunces/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+body {
+  font-family: var(--fonte-corpo);
+  font-size: var(--tamanho-base);
+  line-height: var(--altura-linha-normal);
+  color: var(--cor-texto);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern', 'liga';
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-display);
+  font-weight: var(--peso-bold);
+  line-height: var(--altura-linha-apertada);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--esp-4);
+  color: var(--cor-texto);
+}
+
+h1 { font-size: var(--tamanho-4xl); font-weight: 700; }
+h2 { font-size: var(--tamanho-3xl); font-weight: 600; }
+h3 { font-size: var(--tamanho-2xl); font-weight: 600; }
+h4 { font-size: var(--tamanho-xl);  font-weight: 600; }
+
+p {
+  margin: 0 0 var(--esp-4);
+  max-width: var(--largura-leitura);
+}
+
+a {
+  color: var(--cor-vermelho);
+  text-decoration: none;
+  transition: color var(--duracao-rapida) var(--ease-suave);
+}
+a:hover { color: color-mix(in srgb, var(--cor-vermelho) 70%, var(--cor-texto)); }
+
+.texto-display { font-family: var(--fonte-display); }
+.texto-secundario { color: var(--cor-texto-sec); }
+.texto-pequeno { font-size: var(--tamanho-sm); }
+
+// Classe de sublinhado torcido — desenhado, não retângulo
+.sublinhado-manual {
+  position: relative;
+  display: inline-block;
+  &::after {
+    content: '';
+    position: absolute;
+    left: -4%;
+    right: -4%;
+    bottom: -6px;
+    height: 10px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'><path d='M2 7 Q 50 2, 100 6 T 198 5' stroke='%23FA5C5C' stroke-width='3' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}

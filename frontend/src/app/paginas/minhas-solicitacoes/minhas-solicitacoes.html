@@ -1,0 +1,51 @@
+<section class="container-conteudo secao">
+  <header class="cabecalho-pagina">
+    <p class="secao-sobrescrito">Suas solicitações</p>
+    <h1>O que tá rolando</h1>
+  </header>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined anim-balanco">pets</span>
+      <p>Carregando…</p>
+    </div>
+  } @else if (itens().length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined">inbox</span>
+      <h3 class="estado-vazio__titulo">Você ainda não pediu adoção pra ninguém</h3>
+      <p>Quando solicitar, fica tudo registrado aqui.</p>
+      <a routerLink="/pets" class="botao botao--primario" style="margin-top: var(--esp-4)">Ver pets disponíveis</a>
+    </div>
+  } @else {
+    <ul class="lista-solic">
+      @for (s of itens(); track s.id) {
+        <li class="solic" [attr.data-status]="s.status">
+          <header class="solic__top">
+            <div>
+              <p class="solic__pet">
+                <a [routerLink]="['/pets', s.pet_id]">
+                  {{ s.pet_nome || 'Sem nome' }}
+                </a>
+                <span class="texto-secundario">· {{ s.pet_especie }} {{ s.pet_raca }}</span>
+              </p>
+              <p class="texto-secundario texto-pequeno">
+                Enviada em {{ s.criado_em | date:'dd/MM/yyyy':'':'pt-BR' }}
+              </p>
+            </div>
+            <span class="solic__status" [attr.data-status]="s.status">{{ rotuloStatus(s.status) }}</span>
+          </header>
+
+          <div class="solic__corpo">
+            <h4>Sua mensagem</h4>
+            <blockquote>{{ s.mensagem }}</blockquote>
+
+            @if (s.resposta_admin) {
+              <h4>Resposta da equipe</h4>
+              <blockquote class="solic__resposta">{{ s.resposta_admin }}</blockquote>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

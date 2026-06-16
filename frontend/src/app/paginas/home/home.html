@@ -1,0 +1,130 @@
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="container-conteudo hero__interno">
+    <div class="hero__texto">
+      <p class="hero__sobrescrito">Ei, oi.</p>
+      <h1 class="hero__titulo">
+        Alguém aqui tá <span class="sublinhado-manual">esperando</span> você há um tempinho.
+      </h1>
+      <p class="hero__chamada">
+        São quase 30 milhões de animais nas ruas do Brasil. A gente não vai resolver isso sozinho — mas
+        a sua casa pode resolver pra um deles. Dá uma olhada nos pets disponíveis pra adoção.
+      </p>
+      <div class="hero__acoes">
+        <a routerLink="/pets" class="botao botao--primario">
+          Quero conhecer os pets
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a routerLink="/sobre" class="botao botao--fantasma">Como funciona</a>
+      </div>
+
+      <ul class="hero__provas">
+        <li>
+          <span class="hero__provas-numero">100%</span>
+          <span class="hero__provas-rotulo">com ficha de vacinação</span>
+        </li>
+        <li>
+          <span class="hero__provas-numero">15+</span>
+          <span class="hero__provas-rotulo">pets esperando agora</span>
+        </li>
+        <li>
+          <span class="hero__provas-numero">0R$</span>
+          <span class="hero__provas-rotulo">adoção responsável é gratuita</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="hero__ilustracao" aria-hidden="true">
+      <div class="hero__blob hero__blob--1"></div>
+      <div class="hero__blob hero__blob--2"></div>
+      <div class="hero__blob hero__blob--3"></div>
+      <svg class="hero__pegadas" viewBox="0 0 200 400" fill="none">
+        <g fill="var(--cor-texto)" opacity="0.15">
+          <ellipse cx="40" cy="40" rx="14" ry="11"/>
+          <circle cx="22" cy="22" r="5"/><circle cx="36" cy="14" r="5"/><circle cx="54" cy="14" r="5"/><circle cx="68" cy="22" r="5"/>
+
+          <ellipse cx="140" cy="140" rx="14" ry="11"/>
+          <circle cx="122" cy="122" r="5"/><circle cx="136" cy="114" r="5"/><circle cx="154" cy="114" r="5"/><circle cx="168" cy="122" r="5"/>
+
+          <ellipse cx="60" cy="260" rx="14" ry="11"/>
+          <circle cx="42" cy="242" r="5"/><circle cx="56" cy="234" r="5"/><circle cx="74" cy="234" r="5"/><circle cx="88" cy="242" r="5"/>
+
+          <ellipse cx="150" cy="360" rx="14" ry="11"/>
+          <circle cx="132" cy="342" r="5"/><circle cx="146" cy="334" r="5"/><circle cx="164" cy="334" r="5"/><circle cx="178" cy="342" r="5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Destaques ============ -->
+<section class="secao container-conteudo">
+  <header class="secao-cabecalho">
+    <div>
+      <p class="secao-sobrescrito">Conheça os pets</p>
+      <h2>Tá todo mundo de coração aberto</h2>
+    </div>
+    <a routerLink="/pets" class="botao botao--fantasma botao--pequeno">Ver todos</a>
+  </header>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined anim-balanco">pets</span>
+      <p>Trazendo os bichinhos…</p>
+    </div>
+  } @else if (erro()) {
+    <div class="estado-vazio">
+      <span class="estado-vazio__icone material-symbols-outlined">sentiment_dissatisfied</span>
+      <p>{{ erro() }}</p>
+    </div>
+  } @else {
+    <div class="grade-pets">
+      @for (pet of destaques(); track pet.id; let i = $index) {
+        <app-cartao-pet [pet]="pet" [variante]="i" class="anim-subir" />
+      }
+    </div>
+  }
+</section>
+
+<!-- ============ Adotados ============ -->
+@if (adotados().length > 0) {
+  <section class="secao secao--alt">
+    <div class="container-conteudo">
+      <header class="secao-cabecalho">
+        <div>
+          <p class="secao-sobrescrito">Histórias felizes</p>
+          <h2>Eles já encontraram casa</h2>
+        </div>
+        <a routerLink="/adotados" class="botao botao--fantasma botao--pequeno">Ver todas</a>
+      </header>
+
+      <div class="grade-pets">
+        @for (pet of adotados(); track pet.id; let i = $index) {
+          <app-cartao-pet [pet]="pet" [variante]="i + 2" />
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ============ Como funciona ============ -->
+<section class="secao container-conteudo">
+  <h2 class="centralizado">Como rola por aqui</h2>
+  <ol class="passos">
+    <li class="passo">
+      <div class="passo__numero">1</div>
+      <h3 class="passo__titulo">Você se apaixona</h3>
+      <p>Dá uma vasculhada nos pets, favorita os que mexem com você e lê a história deles com calma.</p>
+    </li>
+    <li class="passo">
+      <div class="passo__numero">2</div>
+      <h3 class="passo__titulo">A gente conversa</h3>
+      <p>Você manda uma solicitação contando um pouquinho da sua rotina. Sem julgamento, só pra garantir que vai dar match.</p>
+    </li>
+    <li class="passo">
+      <div class="passo__numero">3</div>
+      <h3 class="passo__titulo">Ele vai pra casa</h3>
+      <p>Se tudo se encaixou, a gente combina a entrega. E pronto: agora é casa cheia de pelo e amor.</p>
+    </li>
+  </ol>
+</section>

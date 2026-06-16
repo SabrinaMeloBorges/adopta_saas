@@ -1,0 +1,52 @@
+<section class="container-conteudo secao tela-auth">
+  <div class="tela-auth__caixa tela-auth__caixa--larga">
+    <p class="secao-sobrescrito">Bora começar</p>
+    <h1>Cria sua conta</h1>
+    <p class="texto-secundario">Pra mandar solicitação de adoção, a gente precisa saber com quem tá falando.</p>
+
+    <form (submit)="$event.preventDefault(); enviar()" class="form-auth form-auth--duas-colunas">
+      <label class="col-full">
+        Nome completo
+        <input type="text" autocomplete="name" required
+               [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" />
+      </label>
+      <label class="col-full">
+        E-mail
+        <input type="email" autocomplete="email" required
+               [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
+      </label>
+      <label class="col-full">
+        Senha <span class="texto-secundario texto-pequeno">(mín. 6 caracteres)</span>
+        <input type="password" autocomplete="new-password" required minlength="6"
+               [ngModel]="senha()" (ngModelChange)="senha.set($event)" name="senha" />
+      </label>
+      <label>
+        Telefone <span class="texto-secundario texto-pequeno">(opcional)</span>
+        <input type="tel" autocomplete="tel"
+               [ngModel]="telefone()" (ngModelChange)="telefone.set($event)" name="telefone" />
+      </label>
+      <label>
+        Cidade <span class="texto-secundario texto-pequeno">(opcional)</span>
+        <input type="text"
+               [ngModel]="cidade()" (ngModelChange)="cidade.set($event)" name="cidade" />
+      </label>
+      <label>
+        Estado <span class="texto-secundario texto-pequeno">(UF)</span>
+        <input type="text" maxlength="2"
+               [ngModel]="estado()" (ngModelChange)="estado.set($event.toUpperCase())" name="estado" />
+      </label>
+
+      @if (erro()) {
+        <p class="texto-erro col-full">{{ erro() }}</p>
+      }
+
+      <button class="botao botao--primario col-full" type="submit" [disabled]="enviando()">
+        {{ enviando() ? 'Criando…' : 'Criar minha conta' }}
+      </button>
+    </form>
+
+    <p class="texto-secundario texto-pequeno tela-auth__rodape">
+      Já tem conta? <a routerLink="/login">Entra aqui</a>.
+    </p>
+  </div>
+</section>

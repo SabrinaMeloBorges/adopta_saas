@@ -1,0 +1,246 @@
+<section class="container-conteudo secao formulario-pet">
+  <a routerLink="/admin/pets" class="voltar">
+    <span class="material-symbols-outlined">arrow_back</span> Voltar
+  </a>
+
+  <h1>{{ modo() === 'novo' ? 'Cadastrar um pet' : 'Editar pet' }}</h1>
+
+  <form (submit)="$event.preventDefault(); salvar()" class="form-pet">
+
+    <fieldset>
+      <legend>Identificação</legend>
+      <div class="grid-form">
+        <label>
+          <span>
+            Nome <span class="texto-secundario texto-pequeno">(opcional)</span>
+          </span>
+          <input type="text" [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" />
+        </label>
+        <label>
+          Espécie *
+          <select [ngModel]="especie()" (ngModelChange)="especie.set($event)" name="especie">
+            <option value="cachorro">Cachorro</option>
+            <option value="gato">Gato</option>
+            <option value="outro">Outro</option>
+          </select>
+        </label>
+        <label>
+          Raça
+          <input type="text" [ngModel]="raca()" (ngModelChange)="raca.set($event)" name="raca" />
+        </label>
+        <label>
+          Sexo *
+          <select [ngModel]="sexo()" (ngModelChange)="sexo.set($event)" name="sexo">
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+        </label>
+        <label>
+          Idade aprox. (meses)
+          <input type="number" min="0" [ngModel]="idadeMeses()" (ngModelChange)="idadeMeses.set($event)" name="idade" />
+        </label>
+        <label>
+          Porte *
+          <select [ngModel]="porte()" (ngModelChange)="porte.set($event)" name="porte">
+            <option value="pequeno">Pequeno</option>
+            <option value="medio">Médio</option>
+            <option value="grande">Grande</option>
+          </select>
+        </label>
+        <label>
+          Peso (kg)
+          <input type="number" step="0.1" min="0" [ngModel]="pesoKg()" (ngModelChange)="pesoKg.set($event)" name="peso" />
+        </label>
+        <label>
+          Cor / pelagem
+          <input type="text" [ngModel]="cor()" (ngModelChange)="cor.set($event)" name="cor" />
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Saúde</legend>
+      <div class="grid-form grid-form--checks">
+        <label class="check">
+          <input type="checkbox" [ngModel]="castrado()" (ngModelChange)="castrado.set($event)" name="castrado" />
+          <span>Castrado(a)</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" [ngModel]="vermifugado()" (ngModelChange)="vermifugado.set($event)" name="vermifugado" />
+          <span>Vermifugado(a)</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Convivência</legend>
+      <div class="convivencia">
+        <div class="convivencia__bloco">
+          <span>Bom com crianças?</span>
+          <div class="tri-estado">
+            <button type="button" [class.ativo]="bomCriancas() === true"  (click)="setBomCriancas(true)">Sim</button>
+            <button type="button" [class.ativo]="bomCriancas() === false" (click)="setBomCriancas(false)">Não</button>
+            <button type="button" [class.ativo]="bomCriancas() === null"  (click)="setBomCriancas(null)">N/A</button>
+          </div>
+        </div>
+        <div class="convivencia__bloco">
+          <span>Bom com outros pets?</span>
+          <div class="tri-estado">
+            <button type="button" [class.ativo]="bomPets() === true"  (click)="setBomPets(true)">Sim</button>
+            <button type="button" [class.ativo]="bomPets() === false" (click)="setBomPets(false)">Não</button>
+            <button type="button" [class.ativo]="bomPets() === null"  (click)="setBomPets(null)">N/A</button>
+          </div>
+        </div>
+        <div class="convivencia__bloco">
+          <span>Adapta em apartamento?</span>
+          <div class="tri-estado">
+            <button type="button" [class.ativo]="bomApto() === true"  (click)="setBomApto(true)">Sim</button>
+            <button type="button" [class.ativo]="bomApto() === false" (click)="setBomApto(false)">Não</button>
+            <button type="button" [class.ativo]="bomApto() === null"  (click)="setBomApto(null)">N/A</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Personalidade (tags)</legend>
+      <div class="tag-input">
+        <input type="text" placeholder="Ex: brincalhão, calmo, tímido…"
+               [ngModel]="tagNova()" (ngModelChange)="tagNova.set($event)"
+               (keydown.enter)="$event.preventDefault(); adicionarTag()" name="tagNova" />
+        <button type="button" class="botao botao--secundario botao--pequeno" (click)="adicionarTag()">Adicionar</button>
+      </div>
+      <ul class="tags-lista">
+        @for (t of tags(); track t) {
+          <li class="tag tag--pessego">{{ t }} <button type="button" (click)="removerTag(t)" aria-label="Remover">×</button></li>
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset>
+      <legend>História</legend>
+      <div style="display: flex; flex-direction: column; gap: var(--esp-4);">
+        <label class="col-full">
+          Descrição curta
+          <br />
+          <input class="w-100" type="text" [ngModel]="descricao()" (ngModelChange)="descricao.set($event)" name="descricao" />
+        </label>
+        <label class="col-full">
+          História completa
+          <br />
+          <textarea class="w-100" rows="4" [ngModel]="historia()" (ngModelChange)="historia.set($event)" name="historia"></textarea>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Localização & status</legend>
+      <div class="grid-form">
+        <label>
+          Status
+          <select [ngModel]="status()" (ngModelChange)="status.set($event)" name="status">
+            <option value="disponivel">Disponível</option>
+            <option value="em_processo">Em processo</option>
+            <option value="adotado">Adotado</option>
+          </select>
+        </label>
+        <label>
+          Cidade
+          <input type="text" [ngModel]="cidade()" (ngModelChange)="cidade.set($event)" name="cidade" />
+        </label>
+        <label>
+          Estado (UF)
+          <input type="text" maxlength="2" [ngModel]="estado()" (ngModelChange)="estado.set($event.toUpperCase())" name="estado" />
+        </label>
+        <label>
+          Abrigo
+          <input type="text" [ngModel]="abrigo()" (ngModelChange)="abrigo.set($event)" name="abrigo" />
+        </label>
+        <label>
+          Data do resgate
+          <input type="date" [ngModel]="dataResgate()" (ngModelChange)="dataResgate.set($event)" name="dataResgate" />
+        </label>
+        <label>
+          Microchip
+          <input type="text" [ngModel]="microchip()" (ngModelChange)="microchip.set($event)" name="microchip" />
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Fotos</legend>
+      <input type="file" accept="image/*" multiple (change)="aoSelecionarArquivos($event)" />
+
+      @if (fotosExistentes().length > 0) {
+        <div class="previews previews--existentes">
+          @for (foto of fotosExistentes(); track foto.id; let i = $index) {
+            <div class="preview preview--existente">
+              <img [src]="'data:' + foto.mime_type + ';base64,' + foto.foto_base64" alt="Foto existente" />
+              <button type="button" class="preview__remover" (click)="removerFotoExistente(i)" aria-label="Remover foto existente">×</button>
+            </div>
+          }
+        </div>
+      }
+
+      @if (fotosNovas().length > 0) {
+        <div class="previews">
+          @for (foto of fotosNovas(); track foto.foto_base64; let i = $index) {
+            <div class="preview">
+              <img [src]="'data:' + foto.mime_type + ';base64,' + foto.foto_base64" alt="Nova foto" />
+              <button type="button" class="preview__remover" (click)="removerFotoNova(i)" aria-label="Remover nova foto">×</button>
+            </div>
+          }
+        </div>
+      }
+    </fieldset>
+
+    <fieldset>
+      <legend>Ficha de vacinação</legend>
+      <div class="grid-form">
+        <label>
+          Vacina
+          <input type="text" [ngModel]="vacinaNova().nome_vacina" (ngModelChange)="vacinaNova.set({ ...vacinaNova(), nome_vacina: $event })" name="vacNome" />
+        </label>
+        <label>
+          Data aplicada
+          <input type="date" [ngModel]="vacinaNova().data_aplicacao" (ngModelChange)="vacinaNova.set({ ...vacinaNova(), data_aplicacao: $event })" name="vacData" />
+        </label>
+        <label>
+          Próxima dose (opcional)
+          <input type="date" [ngModel]="vacinaNova().proxima_dose" (ngModelChange)="vacinaNova.set({ ...vacinaNova(), proxima_dose: $event })" name="vacProx" />
+        </label>
+        <label>
+          Observações
+          <input type="text" [ngModel]="vacinaNova().observacoes" (ngModelChange)="vacinaNova.set({ ...vacinaNova(), observacoes: $event })" name="vacObs" />
+        </label>
+      </div>
+      <button type="button" class="botao botao--secundario botao--pequeno" (click)="adicionarVacina()">Adicionar vacina</button>
+
+      @if (vacinas().length > 0) {
+        <ul class="lista-vacinas">
+          @for (v of vacinas(); track v; let i = $index) {
+            <li>
+              <strong>{{ v.nome_vacina }}</strong>
+              <span class="texto-secundario">— {{ v.data_aplicacao | date:'dd/MM/yyyy' }}</span>
+              @if (v.proxima_dose) {
+                <span class="texto-secundario"> · próxima: {{ v.proxima_dose | date:'dd/MM/yyyy' }}</span>
+              }
+              <button type="button" (click)="removerVacina(i)" class="botao botao--fantasma botao--pequeno">remover</button>
+            </li>
+          }
+        </ul>
+      }
+    </fieldset>
+
+    @if (erro()) {
+      <p class="texto-erro">{{ erro() }}</p>
+    }
+
+    <div class="acoes-form">
+      <a routerLink="/admin/pets" class="botao botao--fantasma">Cancelar</a>
+      <button type="submit" class="botao botao--primario" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando…' : (modo() === 'novo' ? 'Cadastrar pet' : 'Salvar alterações') }}
+      </button>
+    </div>
+  </form>
+</section>
