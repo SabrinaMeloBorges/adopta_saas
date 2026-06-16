@@ -1,0 +1,212 @@
+// =====================================================
+// Template SCSS Responsivo - Padrões Adopta
+// =====================================================
+
+// ===== Breakpoints (mobile-first) =====
+@mixin sm { @media (min-width: 480px) { @content; } }
+@mixin md { @media (min-width: 640px) { @content; } }
+@mixin lg { @media (min-width: 768px) { @content; } }
+@mixin xl { @media (min-width: 1024px) { @content; } }
+@mixin 2xl { @media (min-width: 1280px) { @content; } }
+
+// ===== Exemplo: Header Responsivo =====
+.header {
+  padding: var(--esp-4);
+  @include md { padding: var(--esp-5) var(--esp-6); }
+  @include lg { padding: var(--esp-6); }
+
+  h1 {
+    font-size: clamp(1.25rem, 3vw, var(--tamanho-2xl));
+  }
+}
+
+// ===== Exemplo: Grid Responsivo =====
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr; // 1 coluna mobile
+  gap: var(--esp-3);
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr); // 2 colunas em 480px
+    gap: var(--esp-4);
+  }
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr); // 3 colunas em 640px
+  }
+
+  @include xl {
+    grid-template-columns: repeat(4, 1fr); // 4 colunas em 1024px
+    gap: var(--esp-5);
+  }
+}
+
+// ===== Exemplo: Form Responsivo =====
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr; // 1 campo por linha mobile
+  gap: var(--esp-3);
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr); // 2 campos por linha
+    gap: var(--esp-4);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr); // 3 campos por linha
+  }
+
+  // Campo de largura completa
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    font-size: 1rem; // Importante: previne zoom iOS
+    padding: var(--esp-3);
+    border-radius: var(--raio-md);
+    border: 1px solid var(--cor-borda);
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: var(--cor-vermelho);
+      box-shadow: var(--sombra-foco);
+    }
+  }
+}
+
+// ===== Exemplo: Tabela → Cards em Mobile =====
+.table-responsive {
+  overflow-x: auto;
+
+  @include lg {
+    overflow-x: visible;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      @include max-lg {
+        display: none;
+      }
+    }
+
+    tbody tr {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--esp-2);
+      margin-bottom: var(--esp-4);
+      padding: var(--esp-4);
+      background: var(--cor-superficie);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--raio-md);
+
+      @include lg {
+        display: table-row;
+        margin-bottom: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--cor-borda);
+      }
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--esp-2) 0;
+
+      @include lg {
+        display: table-cell;
+        padding: var(--esp-3);
+      }
+
+      &::before {
+        content: attr(data-label);
+        font-weight: var(--peso-semibold);
+        color: var(--cor-texto-sec);
+
+        @include lg {
+          content: none;
+        }
+      }
+    }
+  }
+}
+
+// ===== Exemplo: Layout com Sidebar =====
+.layout-com-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+
+  @include lg {
+    flex-direction: row;
+    gap: var(--esp-6);
+  }
+
+  .sidebar {
+    width: 100%;
+    @include lg { width: 280px; flex-shrink: 0; }
+  }
+
+  .main-content {
+    flex: 1;
+  }
+}
+
+// ===== Exemplo: Flexbox com Wrap =====
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+
+  @include sm {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--esp-2);
+  }
+
+  button {
+    flex: 1;
+    min-width: 140px;
+
+    @include md {
+      flex: 0 1 auto;
+    }
+  }
+}
+
+// ===== Exemplo: Tipografia Escalável =====
+.hero-section {
+  padding: var(--esp-6);
+
+  @include md { padding: var(--esp-8); }
+  @include lg { padding: var(--esp-9); }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 4rem);
+    line-height: var(--altura-linha-apertada);
+    margin-bottom: var(--esp-3);
+  }
+
+  p {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    max-width: 65ch; // Limita comprimento da linha
+  }
+}
+
+// ===== Dicas =====
+// - Use clamp() para tipografia fluida
+// - min-width/max-width para containers
+// - grid-template-columns: repeat(auto-fill, minmax(x, 1fr)) para grids flexíveis
+// - box-sizing: border-box; para inputs (importante!)
+// - font-size: 1rem; em inputs (previne zoom iOS)
+// - Sempre teste em dispositivos reais, não só no devtools

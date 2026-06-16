@@ -71,7 +71,10 @@ export class PetFormulario implements OnInit {
   private carregar(id: number) {
     this.petsServ.detalhar(id).subscribe({
       next: (p) => this.preencher(p),
-      error: () => this.erro.set('Pet não encontrado.'),
+      error: () => {
+        this.erro.set('Pet não encontrado.');
+        setTimeout(() => this.router.navigate(['/admin/pets']), 2000);
+      },
     });
   }
 
@@ -92,7 +95,10 @@ export class PetFormulario implements OnInit {
     this.cidade.set(p.cidade || '');
     this.estado.set(p.estado || '');
     this.abrigo.set(p.abrigo || '');
-    this.dataResgate.set(p.data_resgate?.substring(0, 10) || '');
+    // Parse data de forma segura usando Date constructor
+    this.dataResgate.set(
+      p.data_resgate ? new Date(p.data_resgate).toISOString().split('T')[0] : ''
+    );
     this.microchip.set(p.microchip || '');
     this.bomCriancas.set(p.bom_com_criancas);
     this.bomPets.set(p.bom_com_outros_pets);
@@ -161,22 +167,37 @@ export class PetFormulario implements OnInit {
     const foto = fotos[idx];
     if (!foto) return;
 
+    // Registrar para remoção no backend apenas se tiver ID
     if (foto.id != null) {
       this.fotosRemovidas.set([...this.fotosRemovidas(), foto.id]);
+    } else {
+      // Se não tem ID (foto nova não salva), não pode remover no servidor
+      console.warn('Foto sem ID não pode ser removida do servidor');
     }
     this.fotosExistentes.set(fotos.filter((_, i) => i !== idx));
   }
 
   protected salvar() {
-    if (!this.especie() || !this.sexo() || !this.porte()) {
-      this.erro.set('Espécie, sexo e porte são obrigatórios.');
+    // Prevenir múltiplos cliques (race condition)
+    if (this.salvando()) {
+      return;
+    }
+    
+    // Validação incluindo nome obrigatório
+    if (
+      !this.nome().trim() ||
+      !this.especie() ||
+      !this.sexo() ||
+      !this.porte()
+    ) {
+      this.erro.set('Nome, espécie, sexo e porte são obrigatórios.');
       return;
     }
     this.salvando.set(true);
     this.erro.set(null);
 
     const payload: Partial<Pet> & { tags?: string[]; fotos?: FotoNova[]; vacinas?: VacinaPet[] } = {
-      nome: this.nome().trim() || null,
+      nome: this.nome().trim(),
       especie: this.especie(),
       raca: this.raca().trim() || 'SRD',
       sexo: this.sexo(),
@@ -222,14 +243,18 @@ export class PetFormulario implements OnInit {
     const vacinasNovas = this.vacinas().filter((v) => !v.id);
     const vacinasRemovidas = this.idsVacinasOriginais.filter((id) => !idsAtuais.includes(id));
 
+    // Calcular total de fotos (existentes após remoção + novas) para determinar foto principal
+    const totalFotosAoFinal = this.fotosExistentes().length + this.fotosNovas().length;
+
     const ops = [
       ...this.fotosRemovidas().map((fotoId) => this.petsServ.removerFoto(idPet, fotoId)),
       ...this.fotosNovas().map((f, i) =>
+        // Foto é principal apenas se for a PRIMEIRA entre todas as fotos finais
         this.petsServ.adicionarFoto(
           idPet,
           f.foto_base64,
           f.mime_type,
-          this.fotosExistentes().length === 0 && i === 0
+          totalFotosAoFinal > 0 && this.fotosExistentes().length === 0 && i === 0
         )
       ),
       ...vacinasNovas.map((v) => this.petsServ.adicionarVacina(idPet, v)),

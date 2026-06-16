@@ -1,17 +1,45 @@
-.cabecalho-pagina { margin-bottom: var(--esp-6); h1 { margin: var(--esp-1) 0 var(--esp-3); } }
+// Breakpoint mixins
+@mixin sm { @media (min-width: 480px) { @content; } }
+@mixin md { @media (min-width: 640px) { @content; } }
+@mixin lg { @media (min-width: 768px) { @content; } }
+@mixin xl { @media (min-width: 1024px) { @content; } }
+
+.cabecalho-pagina {
+  margin-bottom: var(--esp-4);
+
+  @include md {
+    margin-bottom: var(--esp-6);
+  }
+
+  h1 {
+    margin: var(--esp-1) 0 var(--esp-3);
+    font-size: clamp(1.5rem, 5vw, var(--tamanho-3xl));
+  }
+}
 
 .cards-indicadores {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--esp-4);
-  margin-bottom: var(--esp-7);
+  grid-template-columns: 1fr;
+  gap: var(--esp-3);
+  margin-bottom: var(--esp-5);
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--esp-4);
+  }
+
+  @include xl {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--esp-4);
+    margin-bottom: var(--esp-7);
+  }
 }
 
 .card-indicador {
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-lg);
-  padding: var(--esp-5);
+  padding: var(--esp-4);
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -19,47 +47,71 @@
   gap: var(--esp-2);
   transition: transform var(--duracao-rapida) var(--ease-spring), box-shadow var(--duracao-rapida) var(--ease-suave);
 
-  &:hover { transform: translateY(-2px); box-shadow: var(--sombra-md); }
+  @include md {
+    padding: var(--esp-5);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-md);
+  }
 
   &__numero {
     font-family: var(--fonte-display);
-    font-size: var(--tamanho-3xl);
+    font-size: clamp(2rem, 6vw, var(--tamanho-3xl));
     font-weight: var(--peso-bold);
     line-height: 1;
   }
+
   &__rotulo {
     color: var(--cor-texto-sec);
     font-size: var(--tamanho-sm);
   }
 
   &--vermelho .card-indicador__numero { color: var(--cor-vermelho); }
-  &--laranja  .card-indicador__numero { color: var(--cor-laranja); }
-  &--amarelo  .card-indicador__numero { color: #c8a200; }
+  &--laranja .card-indicador__numero { color: var(--cor-laranja); }
+  &--amarelo .card-indicador__numero { color: #c8a200; }
 
   &--destaque {
     background: var(--cor-vermelho);
     color: white;
     border-color: var(--cor-vermelho);
     border-radius: var(--raio-xl) var(--raio-md) var(--raio-xl) var(--raio-md);
-    .card-indicador__numero, .card-indicador__rotulo { color: white; }
+
+    .card-indicador__numero,
+    .card-indicador__rotulo {
+      color: white;
+    }
   }
 }
 
 .atalhos {
-  h2 { margin-bottom: var(--esp-4); font-size: var(--tamanho-xl); }
+  h2 {
+    margin-bottom: var(--esp-4);
+    font-size: clamp(1.25rem, 4vw, var(--tamanho-xl));
+  }
 }
 
 .atalhos__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--esp-4);
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .atalho {
   display: flex;
-  align-items: center;
-  gap: var(--esp-4);
-  padding: var(--esp-5);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-lg);
@@ -67,16 +119,39 @@
   color: inherit;
   transition: all var(--duracao-rapida) var(--ease-suave);
 
+  @include sm {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--esp-4);
+    padding: var(--esp-5);
+  }
+
   .material-symbols-outlined {
-    font-size: 32px;
+    font-size: 2rem;
     color: var(--cor-vermelho);
     background: var(--cor-erro-fundo);
     padding: var(--esp-2);
     border-radius: var(--raio-pill);
+    flex-shrink: 0;
   }
 
-  strong { font-family: var(--fonte-display); font-size: var(--tamanho-md); }
-  p { margin: var(--esp-1) 0 0; font-size: var(--tamanho-sm); }
+  strong {
+    font-family: var(--fonte-display);
+    font-size: clamp(0.875rem, 2vw, var(--tamanho-md));
+  }
 
-  &:hover { border-color: var(--cor-pessego); transform: translateX(4px); }
+  p {
+    margin: var(--esp-1) 0 0;
+    font-size: var(--tamanho-sm);
+  }
+
+  &:hover {
+    border-color: var(--cor-pessego);
+    transform: translateX(0);
+
+    @include sm {
+      transform: translateX(4px);
+    }
+  }
 }
+
